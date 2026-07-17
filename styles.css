@@ -197,10 +197,10 @@ p{ text-wrap:pretty; }
 /* ============================================================
    HERO
    ============================================================ */
-.hero{ position:relative; padding-top:78px; overflow:hidden; background:#F3EEE9; display:flex; flex-direction:column; aspect-ratio:16/9; min-height:460px; }
+.hero{ position:relative; padding-top:78px; overflow:hidden; background:#F3EEE9; display:flex; flex-direction:column; height:100vh; height:100svh; min-height:460px; }
 #particles{ position:absolute; inset:0; width:100%; height:100%; z-index:2; pointer-events:none; }
 
-/* video fills the hero exactly — hero matches 16:9, so no bars and no crop */
+/* video fills the hero exactly — hero matches the viewport, cover keeps it edge-to-edge */
 .hero-video{
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; object-position:center;
@@ -259,7 +259,7 @@ p{ text-wrap:pretty; }
 @media (prefers-reduced-motion:reduce){ .marquee-track{ animation:none; } }
 
 @media(max-width:900px){
-  .hero{ aspect-ratio:auto; min-height:auto; }
+  .hero{ height:auto; min-height:100vh; min-height:100svh; }
   .hero-grid{ min-height:auto; padding:24px 0 30px; }
   .hero-copy{ max-width:none; margin-left:0; }
 }
