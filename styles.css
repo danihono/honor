@@ -457,63 +457,78 @@ p{ text-wrap:pretty; }
 @media(max-width:520px){ .steps{ grid-template-columns:1fr; } }
 
 /* ============================================================
-   DEPOIMENTO + STATS (dark)
+   NÚMEROS — faixa escura, hierarquia editorial
+   O clarão de brasa é 100% CSS. A versão anterior usava um canvas
+   com 320 partículas e shadowBlur por partícula, que sozinho derrubava
+   a página de 60 fps para ~2 fps. Gradiente + 12 faíscas compostas na
+   GPU dão a mesma identidade sem custo de pintura.
    ============================================================ */
-.quote-card{
-  position:relative; overflow:hidden;
-  background:#0a0605; color:#fff; border-radius:26px;
-  padding:clamp(40px,5vw,68px);
-  display:grid; grid-template-columns:1.1fr 1.5fr; gap:50px; align-items:center;
+.numbers{
+  position:relative; overflow:hidden; isolation:isolate;
+  background:#0a0605; color:#fff;
+  padding:clamp(78px,10vh,132px) 0;
 }
-.quote-card .ember-canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-.quote-col{ position:relative; z-index:2; }
-.quote-card .mesh{ position:absolute; right:-10%; bottom:-40%; width:70%; height:180%; z-index:1;
-  background:radial-gradient(closest-side, rgba(240,90,34,.28), transparent); pointer-events:none; }
-.quote-mark{ font-family:var(--serif); font-style:italic; font-size:70px; color:var(--accent); line-height:.6; }
-.quote-text{ position:relative; font-family:var(--serif); font-size:clamp(22px,2.3vw,30px); line-height:1.25; margin:14px 0 26px; }
-.quote-by{ position:relative; display:flex; align-items:center; gap:14px; }
-.quote-by .av{ width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-deep)); display:grid; place-items:center; font-weight:800; color:#fff; }
-.quote-by .nm{ font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-.quote-by .ro{ font-size:12.5px; color:var(--dark-faint); }
-.qstats{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-
-/* cada KPI é um card de vidro sobre o campo de brasas */
-.qstat{
-  position:relative;
-  padding:24px 20px 20px; border-radius:18px;
-  background:linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.10);
-  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-  transition:opacity .8s var(--ease), transform .8s var(--ease),
-             border-color .45s var(--ease), box-shadow .45s var(--ease);
+.num-glow{
+  position:absolute; left:50%; bottom:-52%; z-index:-1; pointer-events:none;
+  width:min(130%,1600px); aspect-ratio:2/1; transform:translateX(-50%);
+  background:
+    radial-gradient(closest-side, rgba(240,90,34,.34), rgba(200,65,15,.12) 52%, transparent 76%);
 }
-.qstat:hover{
-  transform:translateY(-6px);
-  border-color:rgba(240,90,34,.45);
-  box-shadow:0 18px 46px -18px var(--glow);
-}
-.qstat-n{ font-family:var(--serif); font-size:clamp(38px,4.4vw,64px); line-height:1; }
-.qstat-l{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dark-faint); }
-
-/* trilho que enche em cascata quando o bloco entra na tela */
-.qstat-bar{ height:2px; border-radius:2px; background:rgba(255,255,255,.10); margin:18px 0 12px; overflow:hidden; }
-.qstat-bar i{
-  display:block; height:100%; width:0;
-  background:linear-gradient(90deg,var(--accent-deep),var(--accent),var(--accent-2));
-  box-shadow:0 0 12px var(--glow);
-  transition:width 1.3s var(--ease);
-  transition-delay:calc(var(--i,0) * .09s + .3s);
+.numbers::after{                      /* segundo clarão, mais quente e baixo */
+  content:""; position:absolute; left:50%; bottom:-30%; z-index:-1; pointer-events:none;
+  width:min(80%,900px); aspect-ratio:2.4/1; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(255,122,60,.20), transparent 70%);
 }
 
+/* faíscas: só transform/opacity, compostas na GPU */
+.num-sparks{ position:absolute; inset:0; z-index:-1; pointer-events:none; }
+.spark{
+  position:absolute; left:var(--x); bottom:-12px;
+  width:3px; height:3px; border-radius:50%;
+  background:var(--accent-2);
+  box-shadow:0 0 8px var(--glow);
+  opacity:0; transform:scale(var(--s,1));
+}
 @media (prefers-reduced-motion:no-preference){
-  .qstat{ opacity:0; transform:translateY(22px); transition-delay:calc(var(--i,0) * .09s); }
-  .qstat.in{ opacity:1; transform:none; }
-  /* o hover não pode herdar o delay de entrada, senão demora a responder */
-  .qstat.in:hover{ transition-delay:0s; }
+  .spark{ animation:spark-rise var(--d,12s) linear var(--t,0s) infinite; }
 }
-.qstat.in .qstat-bar i{ width:100%; }
+@keyframes spark-rise{
+  0%   { opacity:0;  transform:translate3d(0,0,0) scale(var(--s,1)); }
+  12%  { opacity:.85; }
+  70%  { opacity:.5; }
+  100% { opacity:0;  transform:translate3d(14px,-62vh,0) scale(var(--s,1)); }
+}
 
-/* numbers glow like orange embers; the particle field behind makes them fiery */
+.num-grid{ display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(34px,6vw,96px); align-items:center; }
+.numbers .eyebrow{ display:block; color:var(--accent-2); margin-bottom:18px; }
+
+/* o protagonista */
+.num-n{ font-family:var(--serif); font-weight:600; font-size:clamp(76px,10.5vw,168px); line-height:.84; }
+.num-rule{
+  display:block; height:1px; max-width:340px; margin:30px 0 18px;
+  background:linear-gradient(90deg, var(--accent), rgba(240,90,34,0));
+}
+.num-l{ font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--dark-soft); }
+
+/* os três que apoiam — alinhados numa régua, número à direita, rótulo à esquerda */
+.num-list{ list-style:none; }
+.num-list li{
+  display:grid; grid-template-columns:minmax(0,1fr) 1.35fr; gap:clamp(16px,2.6vw,34px);
+  align-items:baseline; padding:clamp(15px,2.3vh,26px) 0;
+  border-top:1px solid var(--dark-line);
+}
+.num-list li:last-child{ border-bottom:1px solid var(--dark-line); }
+.num-n2{ justify-self:end; font-family:var(--serif); font-weight:600; font-size:clamp(36px,4.2vw,60px); line-height:1; }
+.num-l2{ font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--dark-faint); }
+
+@media(max-width:900px){
+  .num-grid{ grid-template-columns:1fr; gap:34px; }
+  .num-rule{ max-width:none; }
+  .num-list li{ grid-template-columns:minmax(0,auto) 1fr; }
+  .num-n2{ justify-self:start; }
+}
+
+/* numbers glow like orange embers */
 .ember-num{
   position:relative; display:inline-block; font-weight:600;
   color:#FF8636;
@@ -529,20 +544,29 @@ p{ text-wrap:pretty; }
    Cada dígito é uma coluna com overflow:hidden e uma tira 0-9 que desliza.
    A largura da coluna sai sozinha do dígito mais largo da tira, então todas
    ficam iguais sem depender de a fonte ter algarismos tabulares. */
-.ember-num.odo{
-  display:inline-flex; align-items:flex-start;
-  /* overflow:hidden das colunas cortaria o text-shadow; o brilho passa a ser
-     drop-shadow no contêiner, aplicado depois do corte */
-  text-shadow:none;
-  filter:
-    drop-shadow(0 0 1px rgba(255,180,120,.9))
-    drop-shadow(0 0 14px rgba(240,90,34,.6))
-    drop-shadow(0 0 34px rgba(240,90,34,.42));
+.ember-num.odo{ position:relative; display:inline-flex; align-items:flex-start; }
+
+/* O brilho NÃO pode sair dos dígitos: a janela de cada coluna é um
+   overflow:hidden justo, e qualquer text-shadow largo bate na borda e vira
+   um retângulo. Dar padding não resolve — a folga deixa vazar o dígito
+   vizinho da tira junto com o brilho. Então o estouro vem de uma camada
+   própria atrás, que ninguém recorta.
+   (E não use filter:drop-shadow aqui: derruba a página de ~60 fps p/ ~30,
+   porque o filtro é reaplicado sobre a camada das tiras a cada frame.) */
+.ember-num.odo::before{
+  content:""; position:absolute; inset:-.42em -.28em; z-index:-1; pointer-events:none;
+  /* farthest-side vira elipse acompanhando a largura do número; closest-side
+     daria um círculo que deixa o "+" e o último dígito fora do estouro */
+  background:radial-gradient(farthest-side at 50% 50%,
+    rgba(255,134,54,.40), rgba(240,90,34,.18) 55%, transparent 82%);
 }
+.ember-num.odo .odo-d,
+.ember-num.odo .odo-s{ text-shadow:0 0 1px rgba(255,180,120,.85); }
+
 .odo-d{ display:block; overflow:hidden; height:1em; font-variant-numeric:tabular-nums; }
 .odo-s{ display:block; height:1em; line-height:1em; }
 .odo-strip{
-  display:block; will-change:transform;
+  display:block;
   /* curva própria de propósito: var(--ease) chega perto do fim no primeiro
      terço, o que deixaria o rolar imperceptível. Esta acelera, gira e freia,
      como um contador mecânico. */
@@ -551,7 +575,27 @@ p{ text-wrap:pretty; }
 }
 .odo-strip span{ display:block; height:1em; line-height:1em; text-align:center; }
 
-@media(max-width:960px){ .quote-card{ grid-template-columns:1fr; gap:40px; } .qstats{ grid-template-columns:repeat(2,1fr); } }
+/* ============================================================
+   DEPOIMENTO — editorial, direto no creme, sem moldura
+   ============================================================ */
+.testimonial{ background:var(--cream); }
+.tm{ max-width:920px; margin:0 auto; text-align:center; }
+.tm-mark{ font-family:var(--serif); font-style:italic; font-size:clamp(58px,7vw,88px); color:var(--accent); line-height:.5; }
+.tm-quote{
+  font-family:var(--serif); font-size:clamp(25px,3.3vw,44px); line-height:1.22;
+  color:var(--ink); margin:clamp(26px,3.5vw,40px) 0 clamp(28px,3.5vw,40px);
+  text-wrap:pretty;
+}
+.tm-by{ display:inline-flex; align-items:center; gap:14px; text-align:left; }
+.tm-by .av{
+  width:46px; height:46px; flex:none; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  display:grid; place-items:center; font-weight:800; color:#fff; font-size:14px;
+  box-shadow:0 10px 26px -12px var(--glow);
+}
+.tm-who{ display:grid; gap:3px; }
+.tm-by .nm{ font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); }
+.tm-by .ro{ font-size:12.5px; color:var(--ink-faint); }
 
 /* ============================================================
    CTA (neon)
@@ -629,5 +673,4 @@ p{ text-wrap:pretty; }
 /* frozen-timeline fallback: when CSS animations never advance, show content */
 html.no-anim .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
 html.no-anim .wire path{ stroke-dashoffset:0 !important; transition:none !important; }
-html.no-anim .qstat{ opacity:1 !important; transform:none !important; transition:none !important; }
-html.no-anim .qstat-bar i{ width:100% !important; transition:none !important; }
+html.no-anim .spark{ animation:none !important; opacity:.5 !important; }

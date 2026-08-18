@@ -1,6 +1,6 @@
 /* ============================================================
    HONOR — interactions
-   particle embers · parallax · scroll-reveal · odômetro · nav
+   partículas do hero · parallax · scroll-reveal · odômetro · nav
    ============================================================ */
 (function(){
   "use strict";
@@ -67,10 +67,6 @@
 
     const text = (el.dataset.prefix || "") + el.dataset.odo + (el.dataset.suffix || "");
     const frozen = document.documentElement.classList.contains("no-anim");
-
-    /* o card em volta é quem anima a entrada e o trilho */
-    const card = el.closest(".qstat");
-    if(card) card.classList.add("in");
 
     if(reduce || frozen){ el.textContent = text; return; }
 
@@ -226,69 +222,4 @@
     if(enabled) start();
   }
 
-  /* ============================================================
-     EMBER FIELD  — stats section (orange particles rising, dense at base)
-     ============================================================ */
-  const emberCv = document.querySelector(".ember-canvas");
-  if(emberCv && !reduce){
-    const ctx = emberCv.getContext("2d");
-    let w,h,dpr,parts=[],raf=null;
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio||1, 2);
-      w = emberCv.clientWidth; h = emberCv.clientHeight;
-      emberCv.width = w*dpr; emberCv.height = h*dpr;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    function spawn(reset){
-      const p = {
-        x: Math.random()*w,
-        y: h*(0.55 + Math.random()*0.6),
-        r: Math.random()*2.8 + 0.6,
-        vx: (Math.random()-0.5)*0.3,
-        vy: -(Math.random()*0.8 + 0.2),
-        max: 110 + Math.random()*150,
-        a: Math.random()*0.6 + 0.3,
-        hue: 16 + Math.random()*28
-      };
-      p.life = reset ? 0 : Math.random()*p.max;
-      return p;
-    }
-    function seed(){
-      const n = Math.round(Math.min(320, (w*h)/4200));
-      parts = Array.from({length:n}, ()=>spawn(false));
-    }
-    function frame(){
-      ctx.clearRect(0,0,w,h);
-      const grad = ctx.createRadialGradient(w*0.5, h*1.02, 0, w*0.5, h*1.02, h*0.95);
-      grad.addColorStop(0, "rgba(240,90,34,0.34)");
-      grad.addColorStop(0.5, "rgba(200,65,15,0.14)");
-      grad.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
-      ctx.globalCompositeOperation = "lighter";
-      for(const p of parts){
-        p.x += p.vx; p.y += p.vy; p.life++;
-        if(p.life >= p.max || p.y < -14){ Object.assign(p, spawn(true)); }
-        const lr = p.life/p.max;
-        const fade = Math.sin(Math.min(1,lr)*Math.PI) * p.a;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fillStyle = `hsla(${p.hue},100%,60%,${fade})`;
-        ctx.shadowBlur = 14; ctx.shadowColor = `hsla(${p.hue},100%,54%,${fade})`;
-        ctx.fill();
-      }
-      ctx.shadowBlur = 0;
-      ctx.globalCompositeOperation = "source-over";
-      raf = requestAnimationFrame(frame);
-    }
-    function start(){ if(!raf){ resize(); seed(); frame(); } }
-    function stop(){ if(raf){ cancelAnimationFrame(raf); raf=null; ctx.clearRect(0,0,w,h); } }
-    window.addEventListener("resize", ()=>{ if(raf){ resize(); seed(); } });
-
-    if("IntersectionObserver" in window){
-      const io = new IntersectionObserver((ents)=>{
-        ents.forEach(e=> e.isIntersecting ? start() : stop());
-      }, { threshold:0.08 });
-      io.observe(emberCv);
-    } else { start(); }
-  }
 })();
