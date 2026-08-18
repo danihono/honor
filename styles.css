@@ -311,24 +311,118 @@ p{ text-wrap:pretty; }
 @media(max-width:820px){ .sol-grid{ grid-template-columns:1fr; gap:34px; } }
 
 /* ============================================================
-   MARQUEE — duas fileiras de imagens guiadas pelo scroll
+   CASES — grade por padrão, coverflow 3D no desktop
+   Modos aplicados por cases.js: .cf--on (coverflow) e .cf--snap (mobile).
+   Sem JS, o que vale é a grade abaixo — todo o conteúdo fica legível.
    ============================================================ */
-.work-marquee{
-  background:#0C0C0C;
-  padding:96px 0 40px;              /* pt-24 pb-10 */
-  overflow:hidden;
+/* sem overflow aqui: overflow:hidden no ancestral vira o scrollport do
+   position:sticky e mata o pin. O recorte fica em .cases-sticky. */
+.cases{ --cf-step:60vh; position:relative; background:#0C0C0C; color:#fff; padding:96px 0 104px; }
+.cases-head{ margin-bottom:44px; }
+.cases-head .eyebrow{ display:block; margin-bottom:14px; }
+.cases-head .h2{ color:#FBF5EF; }
+
+/* ---- base: grade ---- */
+.cf-track{ display:grid; grid-template-columns:repeat(2,1fr); gap:26px;
+           max-width:var(--maxw); margin:0 auto; padding:0 40px; }
+.cf-card{ background:#141010; border:1px solid var(--dark-line); border-radius:20px; overflow:hidden; }
+.cf-shot{ aspect-ratio:16/10; background:#0f0b09; }
+.cf-shot img{ width:100%; height:100%; object-fit:cover; display:block; }
+.cf-info{ padding:22px 24px 26px; }
+.cf-info h3{ font-size:23px; color:#fff; }
+.cf-info p{ color:var(--dark-soft); font-size:14.5px; margin:10px 0 16px; max-width:46ch; }
+.cf-chip{ display:inline-flex; align-items:baseline; gap:9px; }
+.cf-chip b{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--accent-2); }
+.cf-chip i{ font-style:normal; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dark-faint); }
+.cf-meta{ display:none; }
+@media(max-width:760px){ .cf-track{ grid-template-columns:1fr; padding:0 24px; } }
+
+/* ---- modo coverflow (desktop) ---- */
+.cases.cf--on{ padding:0; height:calc(100svh + (var(--cf-n,1) - 1) * var(--cf-step)); }
+.cases.cf--on .cases-sticky{
+  position:sticky; top:0; height:100svh; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center; gap:clamp(14px,2.6vh,34px);
+  padding:96px 0 44px;
 }
-@media(min-width:640px){ .work-marquee{ padding-top:128px; } }  /* sm:pt-32 */
-@media(min-width:768px){ .work-marquee{ padding-top:160px; } }  /* md:pt-40 */
-.wm-rows{ display:flex; flex-direction:column; gap:12px; }      /* gap-3 entre fileiras */
-.wm-row{ display:flex; gap:12px; width:max-content; will-change:transform; }
-.wm-tile{
-  width:420px; height:270px; flex:none;
-  border-radius:16px; overflow:hidden;                          /* rounded-2xl */
-  background:#181210;
+/* no modo pinado o cabeçalho divide a tela com os cards, então encolhe */
+.cases.cf--on .cases-head{ margin-bottom:0; text-align:center; }
+.cases.cf--on .cases-head .eyebrow{ margin-bottom:10px; }
+.cases.cf--on .cases-head .h2{ font-size:clamp(26px,3vw,44px); }
+
+.cases.cf--on .cf-stage{
+  position:relative; flex:1; min-height:0;
+  perspective:1600px; perspective-origin:50% 50%;
+  touch-action:pan-y; cursor:grab; outline:none;
 }
-.wm-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
-@media(max-width:640px){ .wm-tile{ width:300px; height:193px; } }
+.cases.cf--on .cf-stage.is-dragging{ cursor:grabbing; }
+.cases.cf--on .cf-stage:focus-visible{ outline:2px solid var(--accent); outline-offset:8px; border-radius:22px; }
+/* brasa por trás do card central */
+.cases.cf--on .cf-stage::before{
+  content:""; position:absolute; left:50%; top:50%; z-index:0; pointer-events:none;
+  width:min(74vw,940px); aspect-ratio:1; transform:translate(-50%,-50%);
+  background:radial-gradient(closest-side, rgba(240,90,34,.20), transparent 70%);
+}
+/* vinhetas laterais: os cards somem na borda em vez de serem cortados */
+.cases.cf--on .cf-stage::after{
+  content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(90deg,#0C0C0C 0%, rgba(12,12,12,0) 15%, rgba(12,12,12,0) 85%, #0C0C0C 100%);
+}
+.cases.cf--on .cf-track{
+  position:absolute; inset:0; z-index:1; display:block;
+  max-width:none; margin:0; padding:0; transform-style:preserve-3d;
+}
+.cases.cf--on .cf-card{
+  position:absolute; left:50%; top:50%;
+  width:min(44vw, 560px, 74vh); margin:0; cursor:pointer;
+  background:#0f0b09; border-color:rgba(255,255,255,.08);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.9);
+  will-change:transform, opacity;
+}
+.cases.cf--on .cf-card .cf-info{ display:none; }
+.cases.cf--on .cf-card.is-active{
+  cursor:default; border-color:rgba(240,90,34,.5);
+  box-shadow:0 44px 92px -30px var(--glow), 0 0 0 1px rgba(240,90,34,.22);
+}
+
+/* legenda + controles */
+.cases.cf--on .cf-meta{
+  display:grid; grid-template-columns:1fr auto; gap:clamp(20px,4vw,64px); align-items:end;
+}
+.cf-meta-text{ transition:opacity .17s var(--ease), transform .17s var(--ease); }
+.cf-meta-text.swap{ opacity:0; transform:translateY(9px); }
+.cf-t{ font-size:clamp(21px,2.3vw,29px); color:#fff; }
+.cf-d{ color:var(--dark-soft); font-size:14.5px; margin:9px 0 14px; max-width:54ch; }
+.cf-ctl{ display:flex; align-items:center; gap:13px; }
+.cf-arrow{
+  width:42px; height:42px; flex:none; border-radius:50%; padding:0; cursor:pointer;
+  border:1px solid var(--dark-line); background:transparent; color:var(--dark-soft);
+  display:grid; place-items:center; transition:.3s var(--ease);
+}
+.cf-arrow:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
+.cf-count{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:var(--dark-faint); }
+.cf-count b{ font-weight:500; color:var(--accent-2); }
+.cf-total{ font-style:normal; }
+.cf-dots{ display:flex; align-items:center; gap:8px; margin-left:6px; }
+.cf-dot{
+  width:7px; height:7px; border:0; padding:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.22); transition:.35s var(--ease);
+}
+.cf-dot:hover{ background:rgba(255,255,255,.5); }
+.cf-dot.is-on{ width:22px; border-radius:4px; background:var(--accent); box-shadow:0 0 12px var(--glow); }
+.cf-cta{ grid-column:1 / -1; justify-self:start; }
+@media(max-width:1100px){
+  .cases.cf--on .cf-meta{ grid-template-columns:1fr; align-items:start; }
+  .cf-cta{ display:none; }
+}
+
+/* ---- modo snap (mobile) ---- */
+.cases.cf--snap .cf-track{
+  display:flex; gap:16px; padding:4px 22px 22px; max-width:none;
+  overflow-x:auto; scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.cases.cf--snap .cf-track::-webkit-scrollbar{ display:none; }
+.cases.cf--snap .cf-card{ flex:0 0 84%; scroll-snap-align:center; }
 
 /* ============================================================
    PROCESSO
@@ -381,9 +475,43 @@ p{ text-wrap:pretty; }
 .quote-by .av{ width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-deep)); display:grid; place-items:center; font-weight:800; color:#fff; }
 .quote-by .nm{ font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 .quote-by .ro{ font-size:12.5px; color:var(--dark-faint); }
-.qstats{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
-.qstat .n{ font-family:var(--serif); font-size:clamp(40px,4.6vw,66px); line-height:1; }
-.qstat .l{ font-size:12.5px; color:var(--dark-faint); margin-top:12px; }
+.qstats{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+/* cada KPI é um card de vidro sobre o campo de brasas */
+.qstat{
+  position:relative;
+  padding:24px 20px 20px; border-radius:18px;
+  background:linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease),
+             border-color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.qstat:hover{
+  transform:translateY(-6px);
+  border-color:rgba(240,90,34,.45);
+  box-shadow:0 18px 46px -18px var(--glow);
+}
+.qstat-n{ font-family:var(--serif); font-size:clamp(38px,4.4vw,64px); line-height:1; }
+.qstat-l{ font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dark-faint); }
+
+/* trilho que enche em cascata quando o bloco entra na tela */
+.qstat-bar{ height:2px; border-radius:2px; background:rgba(255,255,255,.10); margin:18px 0 12px; overflow:hidden; }
+.qstat-bar i{
+  display:block; height:100%; width:0;
+  background:linear-gradient(90deg,var(--accent-deep),var(--accent),var(--accent-2));
+  box-shadow:0 0 12px var(--glow);
+  transition:width 1.3s var(--ease);
+  transition-delay:calc(var(--i,0) * .09s + .3s);
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .qstat{ opacity:0; transform:translateY(22px); transition-delay:calc(var(--i,0) * .09s); }
+  .qstat.in{ opacity:1; transform:none; }
+  /* o hover não pode herdar o delay de entrada, senão demora a responder */
+  .qstat.in:hover{ transition-delay:0s; }
+}
+.qstat.in .qstat-bar i{ width:100%; }
 
 /* numbers glow like orange embers; the particle field behind makes them fiery */
 .ember-num{
@@ -396,6 +524,33 @@ p{ text-wrap:pretty; }
     0 0 70px rgba(240,90,34,.30);
 }
 .ember-num span{ color:inherit; }
+
+/* ---- ODÔMETRO ----
+   Cada dígito é uma coluna com overflow:hidden e uma tira 0-9 que desliza.
+   A largura da coluna sai sozinha do dígito mais largo da tira, então todas
+   ficam iguais sem depender de a fonte ter algarismos tabulares. */
+.ember-num.odo{
+  display:inline-flex; align-items:flex-start;
+  /* overflow:hidden das colunas cortaria o text-shadow; o brilho passa a ser
+     drop-shadow no contêiner, aplicado depois do corte */
+  text-shadow:none;
+  filter:
+    drop-shadow(0 0 1px rgba(255,180,120,.9))
+    drop-shadow(0 0 14px rgba(240,90,34,.6))
+    drop-shadow(0 0 34px rgba(240,90,34,.42));
+}
+.odo-d{ display:block; overflow:hidden; height:1em; font-variant-numeric:tabular-nums; }
+.odo-s{ display:block; height:1em; line-height:1em; }
+.odo-strip{
+  display:block; will-change:transform;
+  /* curva própria de propósito: var(--ease) chega perto do fim no primeiro
+     terço, o que deixaria o rolar imperceptível. Esta acelera, gira e freia,
+     como um contador mecânico. */
+  transition:transform 1.4s cubic-bezier(.65,0,.35,1);
+  transition-delay:calc(var(--d,0) * 110ms);
+}
+.odo-strip span{ display:block; height:1em; line-height:1em; text-align:center; }
+
 @media(max-width:960px){ .quote-card{ grid-template-columns:1fr; gap:40px; } .qstats{ grid-template-columns:repeat(2,1fr); } }
 
 /* ============================================================
@@ -415,6 +570,15 @@ p{ text-wrap:pretty; }
 .cta-section .ital{ color:var(--accent-2); }
 .cta-sub{ color:var(--dark-soft); font-size:16px; max-width:40ch; }
 .cta-section .btn-fill{ margin-top:8px; }
+.cta-phone{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--sans); font-size:13px; font-weight:700;
+  letter-spacing:.08em; color:var(--dark-soft);
+  transition:color .3s var(--ease);
+}
+.cta-phone svg{ color:var(--accent-2); transition:transform .35s var(--ease); }
+.cta-phone:hover{ color:#fff; }
+.cta-phone:hover svg{ transform:scale(1.12); }
 @media(max-width:860px){
   .cta-in{ max-width:none; }
   .cta-bg img{ height:auto; width:150%; right:-34%; top:auto; bottom:-6%; transform:none; opacity:.45; }
@@ -465,3 +629,5 @@ p{ text-wrap:pretty; }
 /* frozen-timeline fallback: when CSS animations never advance, show content */
 html.no-anim .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
 html.no-anim .wire path{ stroke-dashoffset:0 !important; transition:none !important; }
+html.no-anim .qstat{ opacity:1 !important; transform:none !important; transition:none !important; }
+html.no-anim .qstat-bar i{ width:100% !important; transition:none !important; }

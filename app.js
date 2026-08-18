@@ -1,6 +1,6 @@
 /* ============================================================
    HONOR — interactions
-   particle embers · parallax · scroll-reveal · counters · nav
+   particle embers · parallax · scroll-reveal · odômetro · nav
    ============================================================ */
 (function(){
   "use strict";
@@ -38,7 +38,7 @@
   window.addEventListener("scroll", onScrollNav, { passive:true });
 
   /* ---------- SCROLL REVEAL (position-based; works without IO) ---------- */
-  const revealEls = [...document.querySelectorAll(".reveal, .wire, [data-count]")];
+  const revealEls = [...document.querySelectorAll(".reveal, .wire, [data-odo]")];
   function checkReveal(){
     const vh = window.innerHeight;
     for(let i=revealEls.length-1; i>=0; i--){
@@ -46,7 +46,7 @@
       const r = el.getBoundingClientRect();
       if(r.top < vh*0.92 && r.bottom > 0){
         el.classList.add("in");
-        if(el.dataset.count) animateCount(el);
+        if(el.dataset.odo) animateOdometer(el);
         revealEls.splice(i,1);
       }
     }
@@ -56,21 +56,71 @@
   requestAnimationFrame(()=>{ checkReveal(); requestAnimationFrame(checkReveal); });
   window.addEventListener("load", checkReveal);
 
-  /* ---------- COUNTERS ---------- */
-  function animateCount(el){
-    if(reduce){ el.textContent = el.dataset.prefix||"" ; finalize(); return; }
-    const target = parseFloat(el.dataset.count);
-    const prefix = el.dataset.prefix || "";
-    const suffix = el.dataset.suffix || "";
-    const dur = 1400; const t0 = performance.now();
-    function tick(t){
-      const p = Math.min(1,(t-t0)/dur);
-      const e = 1-Math.pow(1-p,3);
-      el.textContent = prefix + Math.round(target*e) + suffix;
-      if(p<1) requestAnimationFrame(tick);
+  /* ---------- ODÔMETRO ----------
+     Cada dígito é uma coluna com uma tira 0-9 que desliza até o valor final.
+     Colunas mais à direita dão mais voltas, então os dígitos assentam em
+     cascata da esquerda para a direita — o mesmo efeito dos "animated
+     numbers" do skiper37/NumberFlow, aqui em CSS + JS puro. */
+  function animateOdometer(el){
+    if(el.dataset.odoDone) return;
+    el.dataset.odoDone = "1";
+
+    const text = (el.dataset.prefix || "") + el.dataset.odo + (el.dataset.suffix || "");
+    const frozen = document.documentElement.classList.contains("no-anim");
+
+    /* o card em volta é quem anima a entrada e o trilho */
+    const card = el.closest(".qstat");
+    if(card) card.classList.add("in");
+
+    if(reduce || frozen){ el.textContent = text; return; }
+
+    el.textContent = "";
+    el.classList.add("odo");
+    const strips = [];
+    let col = 0;
+
+    for(const ch of text){
+      if(ch >= "0" && ch <= "9"){
+        /* voltas extras crescem com a coluna, então os dígitos assentam em
+           cascata da esquerda para a direita */
+        const spins = 1 + col;
+        const reps  = spins + 1;              /* 0-9 repetido o bastante p/ o destino caber */
+        const total = reps * 10;
+
+        const d = document.createElement("span");
+        d.className = "odo-d";
+        d.style.setProperty("--d", col);
+        const strip = document.createElement("span");
+        strip.className = "odo-strip";
+        for(let r = 0; r < reps; r++){
+          for(let n = 0; n <= 9; n++){
+            const cell = document.createElement("span");
+            cell.textContent = n;
+            strip.appendChild(cell);
+          }
+        }
+        d.appendChild(strip);
+        el.appendChild(d);
+        /* % é relativo à altura da própria tira, que varia com reps */
+        strips.push({ strip, pct: -((+ch) + spins * 10) / total * 100 });
+        col++;
+      }else{
+        const cell = document.createElement("span");
+        cell.className = "odo-s";
+        cell.textContent = ch;
+        el.appendChild(cell);
+      }
     }
-    requestAnimationFrame(tick);
-    function finalize(){ el.textContent = prefix+target+suffix; }
+
+    /* dois frames: garante que o estado inicial (translateY 0) foi pintado
+       antes de a transição começar, senão o navegador funde os dois. */
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        strips.forEach(({strip, pct})=>{
+          strip.style.transform = "translate3d(0," + pct + "%,0)";
+        });
+      });
+    });
   }
 
   /* ---------- PARALLAX ---------- */
