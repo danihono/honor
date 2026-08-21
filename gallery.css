@@ -1,0 +1,97 @@
+/* ============================================================
+   HONOR — galerias por solução (landing-pages / sistemas / conteudos-ia)
+   Carregado depois de styles.css e reusa os tokens, .wrap, .eyebrow,
+   .h2, .ital, .lead, .btn e o sistema .reveal de lá.
+   ============================================================ */
+
+/* ---------- cabeçalho enxuto ---------- */
+.gx-head{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,245,239,.86); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.gx-head-in{ display:flex; align-items:center; justify-content:space-between; gap:20px; height:74px; }
+.gx-back{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-soft); transition:color .3s var(--ease);
+}
+.gx-back:hover{ color:var(--accent); }
+.gx-back svg{ transition:transform .3s var(--ease); }
+.gx-back:hover svg{ transform:translateX(-3px); }
+.gx-logo img{ height:26px; width:auto; display:block; }
+.gx-cta{ padding:12px 22px; font-size:12px; }
+
+/* ---------- topo da página ---------- */
+.gx-main{ padding-bottom:clamp(70px,9vh,110px); }
+.gx-hero{ padding:clamp(52px,8vh,96px) 40px clamp(38px,5vh,58px); max-width:900px; text-align:center; }
+.gx-hero .eyebrow{ display:inline-flex; align-items:center; gap:10px; margin-bottom:18px; }
+.gx-num{ font-family:var(--mono); font-style:normal; color:var(--accent); }
+.gx-hero .lead{ margin:18px auto 0; max-width:56ch; }
+
+/* ---------- grade ---------- */
+.gx-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(22px,3vw,38px); }
+.gx-card{
+  border-radius:22px; overflow:hidden; background:#fff;
+  border:1px solid var(--line);
+  box-shadow:0 20px 44px -30px rgba(27,20,16,.34);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .4s;
+}
+.gx-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(240,90,34,.34);
+  box-shadow:0 30px 60px -28px rgba(200,65,15,.4);
+}
+
+.gx-frame{ position:relative; aspect-ratio:16/10; background:var(--cream-3); overflow:hidden; }
+.gx-frame img,
+.gx-frame video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+/* o vídeo entra por cima do print, então a troca não pisca */
+.gx-frame video{ opacity:0; transition:opacity .45s var(--ease); }
+.gx-frame.is-playing video{ opacity:1; }
+
+/* placeholder honesto p/ o que ainda não tem peça */
+.gx-frame--soon{
+  display:grid; place-items:center;
+  background:
+    radial-gradient(closest-side, rgba(240,90,34,.12), transparent 72%),
+    var(--cream-3);
+}
+.gx-soon{
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-faint);
+  border:1px dashed var(--line); border-radius:999px; padding:9px 18px;
+}
+
+.gx-body{ padding:24px 26px 28px; }
+.gx-body h2{ font-size:clamp(20px,2.2vw,26px); }
+.gx-body p{ color:var(--ink-soft); font-size:14.5px; margin:10px 0 16px; max-width:46ch; }
+.gx-chip{ display:inline-flex; align-items:baseline; gap:9px; }
+.gx-chip b{ font-family:var(--serif); font-weight:600; font-size:25px; color:var(--accent-deep); }
+.gx-chip i{ font-style:normal; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
+
+/* ---------- CTA do rodapé da galeria ---------- */
+.gx-foot-cta{
+  margin-top:clamp(56px,8vh,92px); padding:clamp(40px,5vw,60px) 40px;
+  text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px;
+}
+.gx-foot-cta h2{ font-family:var(--serif); font-size:clamp(26px,3.4vw,42px); line-height:1.18; max-width:18ch; }
+.gx-phone{
+  font-family:var(--sans); font-size:13px; font-weight:700; letter-spacing:.08em;
+  color:var(--ink-faint); transition:color .3s var(--ease);
+}
+.gx-phone:hover{ color:var(--accent); }
+
+/* ---------- rodapé ---------- */
+.gx-footer{ border-top:1px solid var(--line); padding:26px 0; }
+.gx-footer-in{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--ink-faint); }
+.gx-footer-in a:hover{ color:var(--accent); }
+
+@media(max-width:820px){
+  .gx-grid{ grid-template-columns:1fr; }
+  .gx-hero{ padding-left:24px; padding-right:24px; }
+  .gx-cta{ display:none; }          /* no celular o CTA do rodapé já cobre */
+}

@@ -32,10 +32,13 @@
   })();
 
   /* ---------- NAV scroll state ---------- */
+  /* as páginas de galeria não têm o nav do site, por isso a guarda */
   const nav = document.querySelector(".nav");
-  const onScrollNav = () => nav.classList.toggle("scrolled", window.scrollY > 24);
-  onScrollNav();
-  window.addEventListener("scroll", onScrollNav, { passive:true });
+  if(nav){
+    const onScrollNav = () => nav.classList.toggle("scrolled", window.scrollY > 24);
+    onScrollNav();
+    window.addEventListener("scroll", onScrollNav, { passive:true });
+  }
 
   /* ---------- SCROLL REVEAL (position-based; works without IO) ---------- */
   const revealEls = [...document.querySelectorAll(".reveal, .wire, [data-odo]")];
