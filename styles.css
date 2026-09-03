@@ -388,6 +388,38 @@ p{ text-wrap:pretty; }
   cursor:default; border-color:rgba(240,90,34,.5);
   box-shadow:0 44px 92px -30px var(--glow), 0 0 0 1px rgba(240,90,34,.22);
 }
+/* o case central com site publicado vira um clique de verdade */
+.cases.cf--on .cf-card.is-active[data-url]{ cursor:pointer; }
+.cf-shot{ position:relative; }
+.cf-card[data-url] .cf-shot::after{
+  content:"Abrir site \2197";
+  position:absolute; left:14px; bottom:14px; z-index:2;
+  padding:9px 16px; border-radius:999px;
+  background:var(--accent); color:#fff;
+  font-family:var(--sans); font-size:11px; font-weight:800;
+  letter-spacing:.13em; text-transform:uppercase;
+  box-shadow:0 14px 30px -12px rgba(200,65,15,.8);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .4s var(--ease), transform .45s var(--ease);
+}
+.cases.cf--on .cf-card.is-active[data-url] .cf-shot::after,
+.cases.cf--snap .cf-card[data-url] .cf-shot::after,
+.cf-card[data-url]:hover .cf-shot::after{ opacity:1; transform:none; }
+
+/* link para o site do case, ao lado da legenda */
+.cf-visit{
+  display:inline-flex; align-items:center; gap:9px; margin-top:16px;
+  font-family:var(--sans); font-size:11.5px; font-weight:800;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--accent-2);
+  transition:gap .35s var(--ease), color .3s var(--ease);
+}
+.cf-visit:hover{ gap:13px; color:#fff; }
+.cf-visit svg{ transition:transform .35s var(--ease); }
+.cf-visit:hover svg{ transform:translate(3px,-3px); }
+.cf-visit-url{
+  font-family:var(--mono); font-weight:400; font-size:11px;
+  letter-spacing:.02em; text-transform:none; color:var(--dark-faint);
+}
 
 /* legenda + controles */
 .cases.cf--on .cf-meta{

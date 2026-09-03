@@ -34,27 +34,71 @@
     <span class="eyebrow reveal"><i class="gx-num">02</i> Sistemas &amp; Apps</span>
     <h1 class="h2 reveal d1">Sistemas &amp; Apps <span class="ital">da HONOR.</span></h1>
     <p class="lead reveal d2">Plataformas sob medida, escaláveis e prontas para crescer com você.</p>
+    <div class="gx-meta reveal d3">
+      <span><b>02</b> sistemas no ar</span>
+      <span class="gx-sep" aria-hidden="true"></span>
+      <span>Clique em qualquer peça para abrir o sistema.</span>
+    </div>
   </div>
 
-  <div class="wrap gx-grid">
-    <article class="gx-card reveal d1">
-      <div class="gx-frame">
-        <img class="gx-shot" src="assets/app-bolao.png" alt="Tela do aplicativo de palpites Bolão" loading="lazy" decoding="async" />
+  <!-- Cada peça é um card-janela: barra com o domínio real, preview da página
+       e o card inteiro vira o link. Para publicar o link de um projeto:
+         1. troque  <article class="pf-card ... is-pending">  por
+            <a class="pf-card ..." href="https://SITE" target="_blank" rel="noopener">
+            (e o </article> do fim por </a>)
+         2. troque o texto "link em breve" da .pf-url pelo domínio
+         3. troque "em breve" da .pf-live por "no ar"
+         4. troque "Link em breve" da .pf-go por: Ver site ao vivo + o <svg> da seta
+         5. acrescente dentro do .pf-frame:
+            <span class="pf-open">Abrir site <svg .../></span>
+       Sem href o card continua honesto: mostra a peça e não promete clique. -->
+  <div class="wrap pf-grid">
+    <article class="pf-card reveal d1 is-pending">
+      <div class="pf-window">
+        <div class="pf-bar" aria-hidden="true">
+          <span class="pf-dots"><i></i><i></i><i></i></span>
+          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>link em breve</span>
+          <span class="pf-live">em breve</span>
+        </div>
+        <div class="pf-frame pf-frame--device">
+          <img class="pf-shot" src="assets/app-bolao.png" alt="Preview de Bolão · App de palpites — tela de palpites e ranking" loading="lazy" decoding="async" />
+          <span class="pf-glare" aria-hidden="true"></span>
+        </div>
       </div>
-      <div class="gx-body">
-        <h2>Bolão · App de palpites</h2>
+      <div class="pf-body">
+        <div class="pf-head">
+          <h2>Bolão · App de palpites</h2>
+          <span class="pf-tag">Web App</span>
+        </div>
         <p>Ranking ao vivo, rodadas e pontuação automática para competições entre participantes.</p>
-        <span class="gx-chip"><b>+28%</b><i>engajamento</i></span>
+        <div class="pf-foot">
+          <span class="pf-chip"><b>+28%</b><i>engajamento</i></span>
+          <span class="pf-go">Link em breve</span>
+        </div>
       </div>
     </article>
-    <article class="gx-card reveal d2">
-      <div class="gx-frame">
-        <img class="gx-shot" src="assets/app-level.png" alt="Área do aluno do aplicativo Level" loading="lazy" decoding="async" />
+    <article class="pf-card reveal d2 is-pending">
+      <div class="pf-window">
+        <div class="pf-bar" aria-hidden="true">
+          <span class="pf-dots"><i></i><i></i><i></i></span>
+          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>link em breve</span>
+          <span class="pf-live">em breve</span>
+        </div>
+        <div class="pf-frame pf-frame--device">
+          <img class="pf-shot" src="assets/app-level.png" alt="Preview de Level · App do aluno — área do aluno com treinos e conquistas" loading="lazy" decoding="async" />
+          <span class="pf-glare" aria-hidden="true"></span>
+        </div>
       </div>
-      <div class="gx-body">
-        <h2>Level · App do aluno</h2>
+      <div class="pf-body">
+        <div class="pf-head">
+          <h2>Level · App do aluno</h2>
+          <span class="pf-tag">Área do aluno</span>
+        </div>
         <p>Área do aluno para acompanhar treinos, conquistas e a jornada no tatame.</p>
-        <span class="gx-chip"><b>+19%</b><i>retenção</i></span>
+        <div class="pf-foot">
+          <span class="pf-chip"><b>+19%</b><i>retenção</i></span>
+          <span class="pf-go">Link em breve</span>
+        </div>
       </div>
     </article>
   </div>

@@ -10,7 +10,7 @@
 (function(){
   "use strict";
 
-  const frames = [...document.querySelectorAll(".gx-frame[data-video]")];
+  const frames = [...document.querySelectorAll(".pf-frame[data-video]")];
   if(!frames.length) return;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -36,6 +36,8 @@
   const elMb    = meta.querySelector(".cf-chip b");
   const elMi    = meta.querySelector(".cf-chip i");
   const elCount = meta.querySelector(".cf-count b");
+  const elVisit = meta.querySelector(".cf-visit");
+  const elVisitU= meta.querySelector(".cf-visit-url");
   meta.querySelector(".cf-total").textContent = " / " + pad2(n - 1);
 
   const dots = cards.map((_, i)=>{
@@ -103,6 +105,15 @@
       elD.textContent  = c.querySelector("p").textContent;
       elMb.textContent = c.querySelector(".cf-chip b").textContent;
       elMi.textContent = c.querySelector(".cf-chip i").textContent;
+      if(elVisit){
+        const url = c.dataset.url;
+        elVisit.hidden = !url;
+        if(url){
+          elVisit.href = url;
+          elVisit.setAttribute("aria-label", "Abrir o site de " + elT.textContent + " em uma nova aba");
+          if(elVisitU) elVisitU.textContent = c.dataset.domain || "";
+        }
+      }
       txt.classList.remove("swap");
     }, 170);
   }
@@ -148,17 +159,31 @@
   stage.addEventListener("pointerup", endDrag);
   stage.addEventListener("pointercancel", endDrag);
 
-  /* clicar num card lateral centraliza ele (ignorado logo após arrastar) */
+  /* abre o site do case numa aba nova; sem data-url o card não promete nada */
+  function openCase(card){
+    const url = card && card.dataset.url;
+    if(!url) return false;
+    window.open(url, "_blank", "noopener");
+    return true;
+  }
+
+  /* clique: card lateral centraliza, card central (ou grade/snap) abre o site.
+     Ignorado logo após arrastar — senão soltar o arrasto viraria navegação. */
   cards.forEach((c, i)=>{
     c.addEventListener("click", ()=>{
-      if(mode !== "cf" || Date.now() - dragEnd < 300) return;
-      if(i !== active) goTo(i, true);
+      if(Date.now() - dragEnd < 300) return;
+      if(mode === "cf" && i !== active){ goTo(i, true); return; }
+      openCase(c);
     });
   });
 
   stage.addEventListener("keydown", e=>{
     if(mode === "grid") return;
     let t = null;
+    if(e.key === "Enter" || e.key === " "){
+      if(active >= 0 && openCase(cards[active])) e.preventDefault();
+      return;
+    }
     if(e.key === "ArrowRight")     t = active + 1;
     else if(e.key === "ArrowLeft") t = active - 1;
     else if(e.key === "Home")      t = 0;

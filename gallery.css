@@ -1,7 +1,13 @@
 /* ============================================================
-   HONOR — galerias por solução (landing-pages / sistemas / conteudos-ia)
+   HONOR — galerias/portfólio por solução
+   (landing-pages / sistemas / conteudos-ia)
    Carregado depois de styles.css e reusa os tokens, .wrap, .eyebrow,
    .h2, .ital, .lead, .btn e o sistema .reveal de lá.
+
+   O card do portfólio é uma JANELA DE NAVEGADOR: barra com o domínio
+   real em cima, preview da página dentro e o card inteiro é o link.
+   Cada peça precisa dizer três coisas antes do clique — que site é
+   (título), como ele é (preview) e para onde vai (domínio na barra).
    ============================================================ */
 
 /* ---------- cabeçalho enxuto ---------- */
@@ -29,49 +35,248 @@
 .gx-num{ font-family:var(--mono); font-style:normal; color:var(--accent); }
 .gx-hero .lead{ margin:18px auto 0; max-width:56ch; }
 
-/* ---------- grade ---------- */
-.gx-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(22px,3vw,38px); }
-.gx-card{
-  border-radius:22px; overflow:hidden; background:#fff;
-  border:1px solid var(--line);
-  box-shadow:0 20px 44px -30px rgba(27,20,16,.34);
-  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .4s;
+/* linha de status: quantas peças e o convite para clicar */
+.gx-meta{
+  display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+  margin-top:26px; font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint);
 }
-.gx-card:hover{
-  transform:translateY(-6px);
-  border-color:rgba(240,90,34,.34);
-  box-shadow:0 30px 60px -28px rgba(200,65,15,.4);
+.gx-meta b{ font-weight:500; color:var(--accent); }
+.gx-meta span{ display:inline-flex; align-items:center; gap:8px; }
+.gx-meta .gx-sep{ width:4px; height:4px; border-radius:50%; background:var(--line); }
+
+/* ============================================================
+   GRADE DO PORTFÓLIO
+   Duas colunas, com a primeira peça em destaque ocupando a linha
+   inteira no formato deitado. A assimetria é o que impede a grade
+   de virar uma tabela de prints.
+   ============================================================ */
+.pf-grid{
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:clamp(20px,2.6vw,34px);
 }
 
-.gx-frame{ position:relative; aspect-ratio:16/10; background:var(--cream-3); overflow:hidden; }
-.gx-frame img,
-.gx-frame video{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; display:block;
+.pf-card{
+  position:relative; isolation:isolate;
+  display:flex; flex-direction:column;
+  border-radius:26px; overflow:hidden;
+  background:linear-gradient(180deg,#fff 0%, #FFFCF9 100%);
+  border:1px solid var(--line);
+  box-shadow:0 24px 50px -34px rgba(27,20,16,.42);
+  transition:transform .55s var(--ease), box-shadow .55s var(--ease), border-color .45s var(--ease);
 }
+/* fio de acento que corre no topo quando o card acorda */
+.pf-card::before{
+  content:""; position:absolute; left:0; top:0; z-index:4;
+  height:2px; width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width .7s var(--ease);
+}
+a.pf-card:hover,
+a.pf-card:focus-visible{
+  transform:translateY(-8px);
+  border-color:rgba(240,90,34,.36);
+  box-shadow:0 40px 74px -34px rgba(200,65,15,.44);
+}
+a.pf-card:hover::before,
+a.pf-card:focus-visible::before{ width:100%; }
+a.pf-card:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; }
+
+/* ---------- janela do navegador ---------- */
+.pf-window{ padding:clamp(13px,1.5vw,18px) clamp(13px,1.5vw,18px) 0; }
+
+.pf-bar{
+  display:flex; align-items:center; gap:12px;
+  height:36px; padding:0 13px;
+  background:var(--cream-2);
+  border:1px solid var(--line); border-bottom:0;
+  border-radius:13px 13px 0 0;
+}
+.pf-dots{ display:flex; gap:5px; flex:none; }
+.pf-dots i{
+  width:8px; height:8px; border-radius:50%;
+  background:var(--ink-faint); opacity:.34;
+  transition:background .45s var(--ease), opacity .45s var(--ease);
+}
+a.pf-card:hover .pf-dots i{ opacity:1; }
+a.pf-card:hover .pf-dots i:nth-child(1){ background:#E8604A; }
+a.pf-card:hover .pf-dots i:nth-child(2){ background:#E8B04A; }
+a.pf-card:hover .pf-dots i:nth-child(3){ background:#5FB87A; }
+
+/* o domínio real — é ele que promete para onde o clique leva */
+.pf-url{
+  flex:1 1 auto; min-width:0;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  height:22px; padding:0 12px;
+  background:rgba(255,255,255,.72); border:1px solid var(--line); border-radius:999px;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.02em;
+  color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  transition:color .4s var(--ease), border-color .4s var(--ease);
+}
+.pf-url svg{ flex:none; opacity:.5; }
+a.pf-card:hover .pf-url{ color:var(--accent-deep); border-color:rgba(240,90,34,.3); }
+
+/* selo "no ar" com o ponto pulsando */
+.pf-live{
+  flex:none; display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.pf-live::before{
+  content:""; width:6px; height:6px; border-radius:50%;
+  background:#3FA96A; box-shadow:0 0 0 0 rgba(63,169,106,.5);
+  animation:pfPulse 2.4s var(--ease) infinite;
+}
+@keyframes pfPulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(63,169,106,.45); }
+  50%    { box-shadow:0 0 0 5px rgba(63,169,106,0); }
+}
+
+/* ---------- preview ---------- */
+.pf-frame{
+  position:relative; overflow:hidden;
+  aspect-ratio:16/10;
+  background:var(--cream-3);
+  border:1px solid var(--line);
+  border-radius:0 0 15px 15px;
+}
+.pf-shot,
+.pf-frame video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:top center; display:block;
+  transition:transform 1.2s var(--ease), filter .6s var(--ease);
+}
+a.pf-card:hover .pf-shot{ transform:scale(1.06); }
 /* o vídeo entra por cima do print, então a troca não pisca */
-.gx-frame video{ opacity:0; transition:opacity .45s var(--ease); }
-.gx-frame.is-playing video{ opacity:1; }
+.pf-frame video{ opacity:0; transition:opacity .45s var(--ease); }
+.pf-frame.is-playing video{ opacity:1; }
+
+/* véu que escurece só o bastante para a pílula "abrir site" ler */
+.pf-frame::after{
+  content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(180deg, rgba(18,13,10,.06), rgba(18,13,10,.34));
+  opacity:0; transition:opacity .5s var(--ease);
+}
+a.pf-card:hover .pf-frame::after{ opacity:1; }
+
+/* brilho que varre o print uma vez a cada hover */
+.pf-glare{
+  position:absolute; inset:-20% -60%; z-index:3; pointer-events:none;
+  background:linear-gradient(105deg, transparent 34%, rgba(255,255,255,.5) 48%, transparent 62%);
+  transform:translateX(-115%);
+}
+a.pf-card:hover .pf-glare{
+  transform:translateX(115%);
+  transition:transform 1.15s var(--ease) .06s;
+}
+
+/* pílula central que aparece no hover */
+.pf-open{
+  position:absolute; left:50%; top:50%; z-index:4;
+  transform:translate(-50%,-50%) scale(.88);
+  display:inline-flex; align-items:center; gap:9px;
+  padding:13px 24px; border-radius:999px;
+  background:var(--accent); color:#fff;
+  font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  box-shadow:0 18px 40px -14px rgba(200,65,15,.7);
+  opacity:0; pointer-events:none;
+  transition:opacity .45s var(--ease), transform .55s var(--ease);
+}
+a.pf-card:hover .pf-open,
+a.pf-card:focus-visible .pf-open{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+/* prints em retrato (apps) ganham moldura de aparelho, não recorte */
+.pf-frame--device{
+  display:grid; place-items:center;
+  background:
+    radial-gradient(closest-side at 50% 42%, rgba(240,90,34,.14), transparent 74%),
+    linear-gradient(165deg, var(--cream-2), var(--cream-3));
+}
+/* posicionado em absoluto de propósito: a moldura tem altura vinda do
+   aspect-ratio, e só um filho absoluto resolve height:% contra ela —
+   em fluxo normal o print estoura a moldura e é cortado embaixo */
+.pf-frame--device .pf-shot{
+  position:absolute; inset:auto; left:50%; top:50%;
+  width:auto; height:86%; max-width:70%;
+  object-fit:contain; object-position:center;
+  transform:translate(-50%,-50%);
+  border-radius:18px; border:1px solid rgba(27,20,16,.14);
+  box-shadow:0 28px 54px -22px rgba(27,20,16,.5);
+}
+a.pf-card:hover .pf-frame--device .pf-shot{ transform:translate(-50%,-52%) scale(1.04); }
+
+/* peça que não é um site: sem barra de navegador, moldura fechada */
+.pf-frame--bare{ border-radius:15px; }
 
 /* placeholder honesto p/ o que ainda não tem peça */
-.gx-frame--soon{
+.pf-frame--soon{
   display:grid; place-items:center;
   background:
     radial-gradient(closest-side, rgba(240,90,34,.12), transparent 72%),
     var(--cream-3);
 }
-.gx-soon{
+.pf-soon{
   font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
   text-transform:uppercase; color:var(--ink-faint);
   border:1px dashed var(--line); border-radius:999px; padding:9px 18px;
 }
 
-.gx-body{ padding:24px 26px 28px; }
-.gx-body h2{ font-size:clamp(20px,2.2vw,26px); }
-.gx-body p{ color:var(--ink-soft); font-size:14.5px; margin:10px 0 16px; max-width:46ch; }
-.gx-chip{ display:inline-flex; align-items:baseline; gap:9px; }
-.gx-chip b{ font-family:var(--serif); font-weight:600; font-size:25px; color:var(--accent-deep); }
-.gx-chip i{ font-style:normal; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
+/* ---------- texto do card ---------- */
+.pf-body{
+  flex:1; display:flex; flex-direction:column; gap:11px;
+  padding:20px clamp(18px,1.9vw,26px) 22px;
+}
+.pf-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+.pf-body h2{ font-size:clamp(20px,2.1vw,27px); line-height:1.1; }
+.pf-tag{
+  flex:none; margin-top:4px; padding:5px 11px; border-radius:999px;
+  background:var(--cream-2); border:1px solid var(--line);
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.pf-body p{ color:var(--ink-soft); font-size:14.5px; margin:0; max-width:48ch; }
+
+.pf-foot{
+  margin-top:auto; padding-top:15px; border-top:1px solid var(--line);
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.pf-chip{ display:inline-flex; align-items:baseline; gap:9px; }
+.pf-chip b{ font-family:var(--serif); font-weight:600; font-size:25px; color:var(--accent-deep); }
+.pf-chip i{ font-style:normal; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
+
+.pf-go{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--sans); font-size:11.5px; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+  transition:gap .35s var(--ease);
+}
+.pf-go svg{ transition:transform .4s var(--ease); }
+a.pf-card:hover .pf-go{ gap:12px; }
+a.pf-card:hover .pf-go svg{ transform:translate(3px,-3px); }
+
+/* peça sem link publicado ainda: o card existe, mas não promete clique */
+.pf-card.is-pending{ cursor:default; }
+.pf-card.is-pending .pf-go{ color:var(--ink-faint); }
+.pf-card.is-pending .pf-live{ color:var(--ink-faint); }
+.pf-card.is-pending .pf-live::before{ background:var(--ink-faint); animation:none; box-shadow:none; }
+
+/* ---------- peça em destaque (deitada) ---------- */
+@media(min-width:861px){
+  .pf-card--wide{ grid-column:1 / -1; flex-direction:row; align-items:stretch; }
+  .pf-card--wide .pf-window{
+    flex:1 1 58%; min-width:0;
+    padding-bottom:clamp(13px,1.5vw,18px);
+    display:flex; flex-direction:column;
+  }
+  .pf-card--wide .pf-frame{ flex:1; aspect-ratio:auto; min-height:340px; }
+  .pf-card--wide .pf-body{
+    flex:1 1 42%; justify-content:center;
+    padding:clamp(28px,3vw,44px);
+  }
+  .pf-card--wide .pf-body h2{ font-size:clamp(27px,2.9vw,38px); }
+  .pf-card--wide .pf-body p{ font-size:15.5px; }
+  .pf-card--wide .pf-foot{ margin-top:26px; }
+}
 
 /* ---------- CTA do rodapé da galeria ---------- */
 .gx-foot-cta{
@@ -90,8 +295,23 @@
 .gx-footer-in{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--ink-faint); }
 .gx-footer-in a:hover{ color:var(--accent); }
 
-@media(max-width:820px){
-  .gx-grid{ grid-template-columns:1fr; }
+@media(max-width:560px){
+  .gx-meta{ gap:6px; }
+  .gx-meta .gx-sep{ display:none; }
+}
+
+@media(max-width:860px){
+  .pf-grid{ grid-template-columns:1fr; }
   .gx-hero{ padding-left:24px; padding-right:24px; }
   .gx-cta{ display:none; }          /* no celular o CTA do rodapé já cobre */
+  /* sem hover no toque, a pílula central só atrapalharia o print */
+  .pf-open{ display:none; }
+}
+
+/* respeitando quem pediu menos movimento: o card ainda responde, sem varredura */
+@media(prefers-reduced-motion:reduce){
+  .pf-glare{ display:none; }
+  .pf-live::before{ animation:none; }
+  a.pf-card:hover{ transform:none; }
+  a.pf-card:hover .pf-shot{ transform:none; }
 }

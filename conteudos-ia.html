@@ -34,37 +34,77 @@
     <span class="eyebrow reveal"><i class="gx-num">03</i> Conteúdos com IA</span>
     <h1 class="h2 reveal d1">Conteúdos com IA <span class="ital">da HONOR.</span></h1>
     <p class="lead reveal d2">Criação inteligente que amplia produção sem perder a alma da marca.</p>
+    <div class="gx-meta reveal d3">
+      <span><b>03</b> frentes de conteúdo</span>
+      <span class="gx-sep" aria-hidden="true"></span>
+      <span>Peças novas entram aqui assim que saem do forno.</span>
+    </div>
   </div>
 
-  <div class="wrap gx-grid">
-    <article class="gx-card reveal d1">
-      <div class="gx-frame gx-frame--soon">
-        <span class="gx-soon">Peças em produção</span>
+  <!-- Cada peça é um card-janela: barra com o domínio real, preview da página
+       e o card inteiro vira o link. Para publicar o link de um projeto:
+         1. troque  <article class="pf-card ... is-pending">  por
+            <a class="pf-card ..." href="https://SITE" target="_blank" rel="noopener">
+            (e o </article> do fim por </a>)
+         2. troque o texto "link em breve" da .pf-url pelo domínio
+         3. troque "em breve" da .pf-live por "no ar"
+         4. troque "Link em breve" da .pf-go por: Ver site ao vivo + o <svg> da seta
+         5. acrescente dentro do .pf-frame:
+            <span class="pf-open">Abrir site <svg .../></span>
+       Sem href o card continua honesto: mostra a peça e não promete clique. -->
+  <div class="wrap pf-grid">
+    <article class="pf-card reveal d1 pf-card--wide is-pending">
+      <div class="pf-window">
+        <div class="pf-frame pf-frame--soon pf-frame--bare">
+          <span class="pf-soon">Peças em produção</span>
+        </div>
       </div>
-      <div class="gx-body">
-        <h2>Vídeos com IA</h2>
+      <div class="pf-body">
+        <div class="pf-head">
+          <h2>Vídeos com IA</h2>
+          <span class="pf-tag">Vídeo</span>
+        </div>
         <p>Conteúdos visuais criados para atrair atenção e fortalecer a marca.</p>
-        <span class="gx-chip"><b>+19%</b><i>engajamento</i></span>
+        <div class="pf-foot">
+          <span class="pf-chip"><b>+19%</b><i>engajamento</i></span>
+          <span class="pf-go">Em produção</span>
+        </div>
       </div>
     </article>
-    <article class="gx-card reveal d2">
-      <div class="gx-frame gx-frame--soon">
-        <span class="gx-soon">Peças em produção</span>
+    <article class="pf-card reveal d2 is-pending">
+      <div class="pf-window">
+        <div class="pf-frame pf-frame--soon pf-frame--bare">
+          <span class="pf-soon">Peças em produção</span>
+        </div>
       </div>
-      <div class="gx-body">
-        <h2>Criativos para redes sociais</h2>
+      <div class="pf-body">
+        <div class="pf-head">
+          <h2>Criativos para redes sociais</h2>
+          <span class="pf-tag">Social</span>
+        </div>
         <p>Imagens, vídeos e campanhas com estética premium e alta retenção.</p>
-        <span class="gx-chip"><b>+80</b><i>peças produzidas</i></span>
+        <div class="pf-foot">
+          <span class="pf-chip"><b>+80</b><i>peças produzidas</i></span>
+          <span class="pf-go">Em produção</span>
+        </div>
       </div>
     </article>
-    <article class="gx-card reveal d3">
-      <div class="gx-frame gx-frame--soon">
-        <span class="gx-soon">Peças em produção</span>
+    <article class="pf-card reveal d3 is-pending">
+      <div class="pf-window">
+        <div class="pf-frame pf-frame--soon pf-frame--bare">
+          <span class="pf-soon">Peças em produção</span>
+        </div>
       </div>
-      <div class="gx-body">
-        <h2>Conteúdo estratégico</h2>
+      <div class="pf-body">
+        <div class="pf-head">
+          <h2>Conteúdo estratégico</h2>
+          <span class="pf-tag">Campanha</span>
+        </div>
         <p>Ideias transformadas em campanhas visuais com personalidade e impacto.</p>
-        <span class="gx-chip"><b>+3x</b><i>alcance</i></span>
+        <div class="pf-foot">
+          <span class="pf-chip"><b>+3x</b><i>alcance</i></span>
+          <span class="pf-go">Em produção</span>
+        </div>
       </div>
     </article>
   </div>
