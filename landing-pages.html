@@ -37,21 +37,17 @@
     <div class="gx-meta reveal d3">
       <span><b>08</b> landing pages</span>
       <span class="gx-sep" aria-hidden="true"></span>
-      <span><b>05</b> no ar — clique para abrir o site</span>
+      <span>todas no ar — clique para abrir o site</span>
     </div>
   </div>
 
-  <!-- Cada peça é um card-janela: barra com o domínio real, preview da página
-       e o card inteiro vira o link. Para publicar o link de um projeto:
-         1. troque  <article class="pf-card ... is-pending">  por
-            <a class="pf-card ..." href="https://SITE" target="_blank" rel="noopener">
-            (e o </article> do fim por </a>)
-         2. troque o texto "link em breve" da .pf-url pelo domínio
-         3. troque "em breve" da .pf-live por "no ar"
-         4. troque "Link em breve" da .pf-go por: Ver site ao vivo + o <svg> da seta
-         5. acrescente dentro do .pf-frame:
-            <span class="pf-open">Abrir site <svg .../></span>
-       Sem href o card continua honesto: mostra a peça e não promete clique. -->
+  <!-- Cada peça é um card-janela: barra com o domínio real, preview da home
+       e o card inteiro é o link, abrindo o site em aba nova. Todas as oito
+       estão no ar — copie um bloco inteiro para acrescentar a próxima e
+       troque href, domínio da .pf-url, título, tag, descrição e o src do
+       preview. Um projeto sem link publicado ainda vira <article> com a
+       classe is-pending (ver sistemas.html): o card mostra a peça e não
+       promete um clique que não existe. -->
   <div class="wrap pf-grid">
     <a class="pf-card reveal d1 pf-card--wide" href="https://danihono.github.io/Karmel/" target="_blank" rel="noopener" aria-label="Abrir Karmel em uma nova aba — danihono.github.io/Karmel">
       <div class="pf-window">
@@ -173,16 +169,17 @@
         </div>
       </div>
     </a>
-    <article class="pf-card reveal d4 is-pending">
+    <a class="pf-card reveal d4" href="https://www.followadvisor.com/" target="_blank" rel="noopener" aria-label="Abrir Follow Advisor em uma nova aba — followadvisor.com">
       <div class="pf-window">
         <div class="pf-bar" aria-hidden="true">
           <span class="pf-dots"><i></i><i></i><i></i></span>
-          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>link em breve</span>
-          <span class="pf-live">em breve</span>
+          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>followadvisor.com</span>
+          <span class="pf-live">no ar</span>
         </div>
         <div class="pf-frame">
           <img class="pf-shot" src="assets/case-follow-advisor.png" alt="Preview de Follow Advisor — hero da landing page institucional" loading="lazy" decoding="async" />
           <span class="pf-glare" aria-hidden="true"></span>
+          <span class="pf-open">Abrir site <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
       <div class="pf-body">
@@ -193,20 +190,21 @@
         <p>Landing page institucional para consultoria em Qualidade, Supply-Chain e Projetos.</p>
         <div class="pf-foot">
           <span class="pf-chip"><b>+32%</b><i>conversão média</i></span>
-          <span class="pf-go">Link em breve</span>
+          <span class="pf-go">Ver site ao vivo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
-    </article>
-    <article class="pf-card reveal d4 is-pending">
+    </a>
+    <a class="pf-card reveal d4" href="https://www.leveljiujitsu.com.br/" target="_blank" rel="noopener" aria-label="Abrir Level Jiu-Jitsu em uma nova aba — leveljiujitsu.com.br">
       <div class="pf-window">
         <div class="pf-bar" aria-hidden="true">
           <span class="pf-dots"><i></i><i></i><i></i></span>
-          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>link em breve</span>
-          <span class="pf-live">em breve</span>
+          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>leveljiujitsu.com.br</span>
+          <span class="pf-live">no ar</span>
         </div>
         <div class="pf-frame">
           <img class="pf-shot" src="assets/case-level.png" alt="Preview de Level Jiu-Jitsu — hero da landing page da academia" loading="lazy" decoding="async" />
           <span class="pf-glare" aria-hidden="true"></span>
+          <span class="pf-open">Abrir site <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
       <div class="pf-body">
@@ -217,20 +215,21 @@
         <p>Landing page imersiva para academia de Jiu-Jitsu: <em class="ital">Jiu-Jitsu para a Vida.</em></p>
         <div class="pf-foot">
           <span class="pf-chip"><b>+120k</b><i>visitantes gerados</i></span>
-          <span class="pf-go">Link em breve</span>
+          <span class="pf-go">Ver site ao vivo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
-    </article>
-    <article class="pf-card reveal d4 pf-card--wide is-pending">
+    </a>
+    <a class="pf-card reveal d4 pf-card--wide" href="https://travessia.solutions/" target="_blank" rel="noopener" aria-label="Abrir Travessia · FollowLabs em uma nova aba — travessia.solutions">
       <div class="pf-window">
         <div class="pf-bar" aria-hidden="true">
           <span class="pf-dots"><i></i><i></i><i></i></span>
-          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>link em breve</span>
-          <span class="pf-live">em breve</span>
+          <span class="pf-url"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>travessia.solutions</span>
+          <span class="pf-live">no ar</span>
         </div>
         <div class="pf-frame">
           <img class="pf-shot" src="assets/case-travessia.png" alt="Preview de Travessia · FollowLabs — hero da landing page da plataforma" loading="lazy" decoding="async" />
           <span class="pf-glare" aria-hidden="true"></span>
+          <span class="pf-open">Abrir site <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
       <div class="pf-body">
@@ -241,10 +240,10 @@
         <p>Landing page premium para plataforma de governança, compliance e qualidade.</p>
         <div class="pf-foot">
           <span class="pf-chip"><b>+45</b><i>projetos entregues</i></span>
-          <span class="pf-go">Link em breve</span>
+          <span class="pf-go">Ver site ao vivo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
         </div>
       </div>
-    </article>
+    </a>
   </div>
 
   <div class="wrap gx-foot-cta reveal">
