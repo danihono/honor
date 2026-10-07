@@ -496,6 +496,21 @@ p{ text-wrap:pretty; }
 }
 @media(max-width:380px){ .orb-list{ grid-template-columns:1fr; } }
 
+/* ---- modo 3D (orbs3d.js): seção escura, canvas WebGL por cima do grid ---- */
+.numbers{ transition:background .7s var(--ease); }
+.numbers--3d{ background:#0c0a09; }
+.numbers--3d::before{ display:none; }
+.numbers--3d .h2{ color:#FBF5EF; }
+.numbers--3d .sec-head .eyebrow{ color:var(--accent-2); }
+.numbers--3d .orb-wire{ display:none; }
+.numbers--3d .orb{ background:none; border:0; box-shadow:none; height:clamp(120px,15vw,190px); }
+.numbers--3d .orb-shine{ display:none; }
+.numbers--3d .orb-num{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.numbers--3d .orb-l{ color:rgba(255,255,255,.62); position:relative; z-index:2; }
+.numbers--3d .orb-item:hover .orb{ transform:none; box-shadow:none; }
+.orb-gl{ position:absolute; left:0; top:0; z-index:1; pointer-events:none; display:block; }
+.numbers--3d .orb-list{ position:relative; z-index:2; }
+
 /* ---- ODÔMETRO ----
    Cada dígito é uma coluna com overflow:hidden e uma tira 0-9 que desliza.
    A largura da coluna sai sozinha do dígito mais largo da tira, então todas
