@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 <link rel="stylesheet" href="gallery.css" />
+<link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
 
@@ -35,78 +36,93 @@
     <h1 class="h2 reveal d1">Conteúdos com IA <span class="ital">da HONOR.</span></h1>
     <p class="lead reveal d2">Criação inteligente que amplia produção sem perder a alma da marca.</p>
     <div class="gx-meta reveal d3">
-      <span><b>03</b> frentes de conteúdo</span>
+      <span><b>05</b> peças no ar</span>
       <span class="gx-sep" aria-hidden="true"></span>
-      <span>Peças novas entram aqui assim que saem do forno</span>
+      <span>Clique para assistir com som</span>
     </div>
   </div>
 
-  <!-- Cada peça é um card-janela: barra com o domínio real, preview da página
-       e o card inteiro vira o link. Para publicar o link de um projeto:
-         1. troque  <article class="pf-card ... is-pending">  por
-            <a class="pf-card ..." href="https://SITE" target="_blank" rel="noopener">
-            (e o </article> do fim por </a>)
-         2. troque o texto "link em breve" da .pf-url pelo domínio
-         3. troque "em breve" da .pf-live por "no ar"
-         4. troque "Link em breve" da .pf-go por: Ver site ao vivo + o <svg> da seta
-         5. acrescente dentro do .pf-frame:
-            <span class="pf-open">Abrir site <svg .../></span>
-       Sem href o card continua honesto: mostra a peça e não promete clique. -->
-  <div class="wrap pf-grid">
-    <article class="pf-card reveal d1 pf-card--wide is-pending">
-      <div class="pf-window">
-        <div class="pf-frame pf-frame--soon pf-frame--bare">
-          <span class="pf-soon">Peças em produção</span>
-        </div>
-      </div>
-      <div class="pf-body">
-        <div class="pf-head">
-          <h2>Vídeos com IA</h2>
-          <span class="pf-tag">Vídeo</span>
-        </div>
-        <p>Conteúdos visuais criados para atrair atenção e fortalecer a marca.</p>
-        <div class="pf-foot">
-          <span class="pf-chip"><b>+19%</b><i>engajamento</i></span>
-          <span class="pf-go">Em produção</span>
-        </div>
-      </div>
-    </article>
-    <article class="pf-card reveal d2 is-pending">
-      <div class="pf-window">
-        <div class="pf-frame pf-frame--soon pf-frame--bare">
-          <span class="pf-soon">Peças em produção</span>
-        </div>
-      </div>
-      <div class="pf-body">
-        <div class="pf-head">
-          <h2>Criativos para redes sociais</h2>
-          <span class="pf-tag">Social</span>
-        </div>
-        <p>Imagens, vídeos e campanhas com estética premium e alta retenção.</p>
-        <div class="pf-foot">
-          <span class="pf-chip"><b>+80</b><i>peças produzidas</i></span>
-          <span class="pf-go">Em produção</span>
-        </div>
-      </div>
-    </article>
-    <article class="pf-card reveal d3 is-pending">
-      <div class="pf-window">
-        <div class="pf-frame pf-frame--soon pf-frame--bare">
-          <span class="pf-soon">Peças em produção</span>
-        </div>
-      </div>
-      <div class="pf-body">
-        <div class="pf-head">
-          <h2>Conteúdo estratégico</h2>
-          <span class="pf-tag">Campanha</span>
-        </div>
-        <p>Ideias transformadas em campanhas visuais com personalidade e impacto.</p>
-        <div class="pf-foot">
-          <span class="pf-chip"><b>+3x</b><i>alcance</i></span>
-          <span class="pf-go">Em produção</span>
-        </div>
-      </div>
-    </article>
+  <!-- Cada peça toca muda ao passar o mouse; o clique abre o vídeo com som no lightbox.
+       Para uma peça nova: comprimir em assets/ia (mp4 + webm + jpg de capa) e copiar um .ia-card. -->
+  <div class="wrap ia-wrap">
+    <div class="ia-row">
+    <button class="ia-card reveal d1" type="button" data-play="honor-comercial" data-ratio="16/9" aria-label="Assistir Comercial HONOR com som">
+      <span class="ia-media">
+          <video muted loop playsinline preload="none" poster="assets/ia/honor-comercial.jpg" data-hover>
+            <source src="assets/ia/honor-comercial.webm" type="video/webm" />
+            <source src="assets/ia/honor-comercial.mp4" type="video/mp4" />
+          </video>
+        <span class="ia-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ia-dur">20s</span>
+      </span>
+      <span class="ia-t">Comercial HONOR</span>
+      <span class="ia-d">Filme institucional da marca, criado com IA.</span>
+    </button>
+    <button class="ia-card reveal d2" type="button" data-play="follow-advisor" data-ratio="16/9" aria-label="Assistir Follow Advisor · Motion com som">
+      <span class="ia-media">
+          <video muted loop playsinline preload="none" poster="assets/ia/follow-advisor.jpg" data-hover>
+            <source src="assets/ia/follow-advisor.webm" type="video/webm" />
+            <source src="assets/ia/follow-advisor.mp4" type="video/mp4" />
+          </video>
+        <span class="ia-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ia-dur">49s</span>
+      </span>
+      <span class="ia-t">Follow Advisor · Motion</span>
+      <span class="ia-d">Motion de apresentação da consultoria em Qualidade e Supply-Chain.</span>
+    </button>
+    <button class="ia-card reveal d3" type="button" data-play="travessia" data-ratio="16/9" aria-label="Assistir Travessia · Institucional com som">
+      <span class="ia-media">
+          <video muted loop playsinline preload="none" poster="assets/ia/travessia.jpg" data-hover>
+            <source src="assets/ia/travessia.webm" type="video/webm" />
+            <source src="assets/ia/travessia.mp4" type="video/mp4" />
+          </video>
+        <span class="ia-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ia-dur">1min08</span>
+      </span>
+      <span class="ia-t">Travessia · Institucional</span>
+      <span class="ia-d">Vídeo institucional da plataforma de governança e compliance.</span>
+    </button>
+    </div>
+    <h2 class="ia-sub reveal">Formato <span class="ital">vertical.</span></h2>
+    <div class="ia-row ia-row--v">
+    <button class="ia-card ia-card--v reveal d1" type="button" data-play="level-reels" data-ratio="9/16" aria-label="Assistir Level · Reels com som">
+      <span class="ia-media">
+          <video muted loop playsinline preload="none" poster="assets/ia/level-reels.jpg" data-hover>
+            <source src="assets/ia/level-reels.webm" type="video/webm" />
+            <source src="assets/ia/level-reels.mp4" type="video/mp4" />
+          </video>
+        <span class="ia-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ia-dur">40s</span>
+      </span>
+      <span class="ia-txt">
+        <span class="ia-tag">Reels 9:16</span>
+        <span class="ia-t">Level · Reels</span>
+        <span class="ia-d">Reels para a academia de Jiu-Jitsu, pensados para retenção.</span>
+        <span class="ia-go">Assistir com som <b class="ar">&rarr;</b></span>
+      </span>
+    </button>
+    <button class="ia-card ia-card--v reveal d2" type="button" data-play="fera-rugi" data-ratio="9/16" aria-label="Assistir Fera Rugi · Reels com som">
+      <span class="ia-media">
+          <video muted loop playsinline preload="none" poster="assets/ia/fera-rugi.jpg" data-hover>
+            <source src="assets/ia/fera-rugi.webm" type="video/webm" />
+            <source src="assets/ia/fera-rugi.mp4" type="video/mp4" />
+          </video>
+        <span class="ia-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="ia-dur">23s</span>
+      </span>
+      <span class="ia-txt">
+        <span class="ia-tag">Reels 9:16</span>
+        <span class="ia-t">Fera Rugi · Reels</span>
+        <span class="ia-d">Reels vertical com estética premium para redes sociais.</span>
+        <span class="ia-go">Assistir com som <b class="ar">&rarr;</b></span>
+      </span>
+    </button>
+    </div>
+  </div>
+
+  <div class="ia-lb" id="iaLb" hidden role="dialog" aria-modal="true" aria-label="Player de vídeo">
+    <button class="ia-lb-x" type="button" aria-label="Fechar">&times;</button>
+    <video id="iaLbVid" controls playsinline></video>
   </div>
 
   <div class="wrap gx-foot-cta reveal">
@@ -124,6 +140,24 @@
 </footer>
 
 <script src="app.js"></script>
-<script src="gallery.js"></script>
+<script src="portfolio.js"></script>
+<script>
+(function(){
+  var lb=document.getElementById("iaLb"), v=document.getElementById("iaLbVid"), last=null;
+  function close(){ v.pause(); v.removeAttribute("src"); v.load(); lb.hidden=true; document.body.style.overflow=""; if(last) last.focus(); }
+  document.querySelectorAll("[data-play]").forEach(function(b){
+    b.addEventListener("click", function(){
+      last=b; var n=b.dataset.play, r=b.dataset.ratio;
+      v.className = r==="9/16" ? "is-v" : "";
+      v.src = "assets/ia/"+n+(v.canPlayType('video/mp4; codecs="avc1.42E01E"') ? ".mp4" : ".webm");
+      lb.hidden=false; document.body.style.overflow="hidden";
+      v.muted=false; var p=v.play(); if(p&&p.catch) p.catch(function(){});
+      lb.querySelector(".ia-lb-x").focus();
+    });
+  });
+  lb.addEventListener("click", function(e){ if(e.target!==v) close(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape" && !lb.hidden) close(); });
+})();
+</script>
 </body>
 </html>
