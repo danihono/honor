@@ -4,7 +4,7 @@
 .pf-about{ display:grid; grid-template-columns:260px 1fr; gap:clamp(30px,5vw,72px); align-items:center;
   padding-top:clamp(48px,8vh,96px); padding-bottom:clamp(40px,6vh,72px); max-width:1100px; }
 .ab-photo{ aspect-ratio:4/5; border-radius:26px; display:grid; place-items:center; position:relative; overflow:hidden;
-  background:radial-gradient(circle at 30% 20%, var(--accent-2), var(--accent-deep) 70%); box-shadow:0 34px 60px -30px rgba(200,65,15,.6); }
+  box-shadow:0 34px 60px -30px rgba(200,65,15,.6); }
 .ab-photo span{ font-family:var(--serif); font-style:italic; font-size:86px; color:rgba(255,255,255,.92); }
 .ab-links{ list-style:none; display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:20px; }
 .ab-links a{ font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); transition:color .3s; }
@@ -100,3 +100,4 @@
   .ia-row, .ia-row--v{ grid-template-columns:1fr; }
   .ia-card--v .ia-media{ width:42%; }
 }
+.ab-photo img{ width:100%; height:100%; object-fit:cover; object-position:50% 25%; display:block; }
